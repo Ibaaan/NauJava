@@ -7,8 +7,11 @@ import ru.ivan.NauJava.model.Chat;
 import ru.ivan.NauJava.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
-    @Query("SELECT cp.chat FROM ChatParticipant  cp where cp.user = :user")
-    List<Chat> findByUser(@Param("user") User user);
+    Optional<User> findByUsername(String username);
+
+    @Query("SELECT cp.chat FROM ChatParticipant cp WHERE cp.user.id = :userId")
+    List<Chat> findByUserId(@Param("userId") Long userId);
 }
