@@ -25,7 +25,10 @@ public class SpringSecurityConfig {
                         .permitAll()
                         .requestMatchers("/swagger-ui.html").hasRole("ADMIN")
                         .anyRequest().authenticated())
-                .formLogin(withDefaults());
+                .formLogin(withDefaults())
+                .logout((logout) -> logout
+                    .logoutUrl("/logout")
+                    .permitAll());
         return http.build();
     }
 }
