@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Report</title>
+</head>
+
+<body>
+
+<h1>Application Report</h1>
+
+<div class="section">
+    <h2>General Information</h2>
+
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+
+        <tr>
+            <td>Total Users</td>
+            <td th:text="${userCount}"></td>
+        </tr>
+
+        <tr>
+            <td>User calculation time (ms)</td>
+            <td th:text="${userTime}"></td>
+        </tr>
+
+        <tr>
+            <td>Entity fetch time (ms)</td>
+            <td th:text="${entityTime}"></td>
+        </tr>
+
+        <tr>
+            <td>Total time (ms)</td>
+            <td th:text="${totalTime}"></td>
+        </tr>
+
+    </table>
+</div>
+
+<div class="section">
+    <h2>Entities</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Field</th>
+        </tr>
+
+        <tr th:each="e : ${entities}">
+            <td th:text="${e.id}"></td>
+            <td th:text="${e.username}"></td>
+            <td th:text="${e.createdAt}"></td>
+        </tr>
+
+    </table>
+</div>
+
+</body>
+</html>
