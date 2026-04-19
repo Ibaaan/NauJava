@@ -30,6 +30,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void addUser(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
     public void deleteUser(String username) {
         TransactionStatus status = transactionManager.getTransaction(new
                 DefaultTransactionDefinition());
