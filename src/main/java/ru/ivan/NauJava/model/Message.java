@@ -1,24 +1,41 @@
 package ru.ivan.NauJava.model;
 
+import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Entity
+@Table(name = "message")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    private Long chatId;
-    private Long senderId;
-    private String text;
 
-    public Message(Long id, Long chatId, Long senderId, String text) {
-        this.id = id;
-        this.chatId = chatId;
-        this.senderId = senderId;
-        this.text = text;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chat_id", nullable = false)
+    private Chat chat;
 
-    public Long getSenderId() {
-        return senderId;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_id", nullable = false)
+    private ChatParticipant sender;
 
-    public void setSenderId(Long senderId) {
-        this.senderId = senderId;
+    @Column(name = "message_text", columnDefinition = "TEXT")
+    private String messageText;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "media_count")
+    private Integer mediaCount;
+
+    @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MessageMedia> media;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -29,29 +46,51 @@ public class Message {
         this.id = id;
     }
 
-    public Long getChatId() {
-        return chatId;
+    public Chat getChat() {
+        return chat;
     }
 
-    public void setChatId(Long chatId) {
-        this.chatId = chatId;
+    public void setChat(Chat chat) {
+        this.chat = chat;
     }
 
-    public String getText() {
-        return text;
+    public ChatParticipant getSender() {
+        return sender;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setSender(ChatParticipant sender) {
+        this.sender = sender;
     }
 
-    @Override
-    public String toString() {
-        return "Message{" +
-                "id=" + id +
-                ", chatId=" + chatId +
-                ", senderId=" + senderId +
-                ", text='" + text + '\'' +
-                '}';
+    public String getMessageText() {
+        return messageText;
+    }
+
+    public void setMessageText(String messageText) {
+        this.messageText = messageText;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Integer getMediaCount() {
+        return mediaCount;
+    }
+
+    public void setMediaCount(Integer mediaCount) {
+        this.mediaCount = mediaCount;
+    }
+
+    public List<MessageMedia> getMedia() {
+        return media;
+    }
+
+    public void setMedia(List<MessageMedia> media) {
+        this.media = media;
     }
 }
